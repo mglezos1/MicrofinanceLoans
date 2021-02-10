@@ -3,7 +3,7 @@
 pragma solidity ^0.7.1;
 pragma experimental ABIEncoderV2; // for "getLoan() returns(struct)"
 
-import "./token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "./MFLoanOracle.sol";
 
 contract MFLoan is ERC721 {
