@@ -1,0 +1,20 @@
+.Centertext{
+    text-align: center;
+    border: 1px solid #F4F4F4;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    background: #1659BE;
+    color: white;
+}
+
+.TitleText{
+    background: #1659BE;
+    align-items: center;
+    display: "flex";
+    justify-Content: center;
+}
+
+.marginTop15{
+    margin-top: 15px;
+}
