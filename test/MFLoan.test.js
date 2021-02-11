@@ -175,7 +175,7 @@ contract("MFLoan", function (accounts) {
   });
 
   describe("Payback Functionality", () => {
-    it("should", async () => {
+    it("should paybackLoan()", async () => {
       const instance = await MFLoan.deployed();
 
       const tx = await instance.paybackLoan(new BigNumber(loanPaybackAmt), { value: new BigNumber(loanPaybackAmt), from: addrBorrower });
