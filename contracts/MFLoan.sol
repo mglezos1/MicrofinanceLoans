@@ -36,7 +36,7 @@ contract MFLoan is ERC721 {
     require(msg.sender.balance >= _amount, "MFLoan: insufficient lender balance");
 
     // Effects:
-    uint _interestRate = oracle.getInterestRateTimes100();
+    uint _interestRate = oracle.getRate(); // returns iRate100
     uint _tokenId = _tokenIndexCursor;
     _tokenIndexCursor++;
     Loan memory _newLoan = Loan({
@@ -46,7 +46,7 @@ contract MFLoan is ERC721 {
       dateBorrowed: block.timestamp,
       amountBorrowed: _amount,
       interestRate: _interestRate,
-      amountOwedToPayback: _amount + (_amount * _interestRate / 10000), // /100 for percentage, /100 for Times100()
+      amountOwedToPayback: _amount + (_amount * _interestRate / 10000), // one /100 for iRate100 => pct, and one /100 for pct => decimal
       dueDate: block.timestamp + 7 days
     });
     loans[_borrower] = _newLoan;
@@ -81,12 +81,12 @@ contract MFLoan is ERC721 {
   }
   
   function getLoan(address _borrower) public view returns(Loan memory) {
-      require(_borrower != address(0), "MFLoan: detected zero address");
-      return loans[_borrower];
+    require(_borrower != address(0), "MFLoan: zero address has no loan");
+    return loans[_borrower];
   }
   
   function getLoanOwedAmt(address _borrower) public view returns(uint) {
-      require(_borrower != address(0), "MFLoan: detected zero address");
-      return loans[_borrower].amountOwedToPayback;
+    require(_borrower != address(0), "MFLoan: zero address has no loanOwedAmt");
+    return loans[_borrower].amountOwedToPayback;
   }
 }
