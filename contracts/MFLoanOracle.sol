@@ -2,31 +2,20 @@
 
 pragma solidity ^0.7.1;
 
-contract interestRate {
-address owner;
+contract MFLoanOracle {
+  address owner;
+  uint256 iRate100;
+  
+  constructor() {
+    iRate100 = 1;
+  }
 
-constructor() {
-owner = msg.sender;
-}
+  function getRate() public view returns(uint256) {
+    return iRate100;
+  }
 
-struct rate {
-uint iRate;
-uint date;
-}
-
- mapping( uint => rate) rateQuote;
-
-modifier onlyOwner {
-require(
-msg.sender == owner,
-"Only owner can call this function."
-);
-_;
-}
-//interest rate
-function getRate(uint iRate, uint date) onlyOwner public {
-
-rate memory _Rate = rate({iRate: iRate, date: date});
-rateQuote[date] = _Rate;
-}
+  function setRate(uint256 rate) public {
+    require(rate > 0, "MFLoanOracle: must be more the zero");
+    iRate100 = rate;
+  }
 }
