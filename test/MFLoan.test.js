@@ -10,7 +10,7 @@ const helpAreBNsEqual = (_left, _right) => {
 
 const helpOwedAmt = _loanAmt => {
   interestRatePct = 1; // 1%
-  return _loanAmt + (_loanAmt * interestRatePct / 100);
+  return _loanAmt + (_loanAmt * interestRatePct / 10000);
 };
 
 contract("MFLoan", function (accounts) {
@@ -62,7 +62,7 @@ contract("MFLoan", function (accounts) {
 
       const loanOwedAmtExp = helpOwedAmt(loanAmt);
       const loanOwedAmt = await instance.getLoanOwedAmt.call(addrBorrower, { from: addr0 });
-      assert.equal(loanOwedAmt, loanOwedAmtExp, `getLoanOwedAmt() '${loanOwedAmt}' not expected '${loanOwedAmtExp}'`);
+      assert.isTrue(helpAreBNsEqual(loanOwedAmt, loanOwedAmtExp), `getLoanOwedAmt() '${loanOwedAmt}' not expected '${loanOwedAmtExp}'`);
     });
     
     it("should getLoan()", async () => {
@@ -87,8 +87,8 @@ contract("MFLoan", function (accounts) {
       assert.equal(loanObj.id, loanObjExp.id, `getLoan() id '${loanObj.id}' not expected '${loanObjExp.id}'`);
       assert.equal(loanObj.borrower, loanObjExp.borrower, `getLoan() borrower '${loanObj.borrower}' not expected '${loanObjExp.borrower}'`);
       assert.equal(loanObj.lender, loanObjExp.lender, `getLoan() lender '${loanObj.lender}' not expected '${loanObjExp.lender}'`);
-      assert.equal(loanObj.amountBorrowed, loanObjExp.amountBorrowed, `getLoan() amountBorrowed '${loanObj.amountBorrowed}' not expected '${loanObjExp.amountBorrowed}'`);
-      assert.equal(loanObj.amountOwedToPayback, loanObjExp.amountOwedToPayback, `getLoan() amountOwedToPayback '${loanObj.amountOwedToPayback}' not expected '${loanObjExp.amountOwedToPayback}'`);
+      assert.isTrue(helpAreBNsEqual(loanObj.amountBorrowed, loanObjExp.amountBorrowed), `getLoan() amountBorrowed '${loanObj.amountBorrowed}' not expected '${loanObjExp.amountBorrowed}'`);
+      assert.isTrue(helpAreBNsEqual(loanObj.amountOwedToPayback, loanObjExp.amountOwedToPayback), `getLoan() amountOwedToPayback '${loanObj.amountOwedToPayback}' not expected '${loanObjExp.amountOwedToPayback}'`);
     });
   });
 
