@@ -18,3 +18,15 @@
 .marginTop15{
     margin-top: 15px;
 }
+
+.navLink{
+    cursor: pointer;
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.navLink:hover{
+    color: #EEE;
+    font-size: 20px;
+}
