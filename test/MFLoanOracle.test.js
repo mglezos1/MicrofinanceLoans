@@ -1,6 +1,6 @@
 const BigNumber = require("bignumber.js");
 const truffleAssert = require("truffle-assertions");
-const MFLoanOracle = artifacts.require("MFLoan");
+const MFLoanOracle = artifacts.require("MFLoanOracle");
 
 contract("MFLoanOracle", function (accounts){
     describe("Oracle Deployment", () =>{
@@ -13,13 +13,14 @@ contract("MFLoanOracle", function (accounts){
         it('should get the interest rate', async()=>{
             const instance = await MFLoanOracle.deployed();
             const rate = await instance.getRate();
-            assert(rate<0);
+            assert.isTrue(rate > 0, "zero rate");
         })
 
-        it('should not be less than 1', async()=>{
+        it('should set the interest rate', async()=>{
             const instance = await MFLoanOracle.deployed();
-            const rate100 = await instance.setRate();
-            assert(rate100<1);
+            const rate100Expected = 100 * 2;
+            const rate100 = await instance.setRate(new BigNumber(rate100Expected), { from: accounts[0] });
+            assert.isTrue(new BigNumber(rate100Expected).isEqualTo(rate100Expected), `rate100 ${rate100} not expected ${rate100Expected}`);
         })
     })
 });
